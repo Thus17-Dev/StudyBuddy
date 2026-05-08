@@ -1,7 +1,11 @@
 const STORAGE_KEY = "studybuddy.guest";
 
 export function makeId(prefix) {
-  return `${prefix}_${crypto.randomUUID()}`;
+  const randomId =
+    globalThis.crypto?.randomUUID?.() ||
+    `${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+
+  return `${prefix}_${randomId}`;
 }
 
 export function emptyGuestData() {
