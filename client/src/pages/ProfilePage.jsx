@@ -8,25 +8,25 @@ export function ProfilePage({ go }) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl bg-white p-6 shadow-sm">
-        <h1 className="text-3xl font-black">Profile</h1>
-        <p className="mt-1 text-slate-500">{isGuest ? "Guest learner" : user?.email}</p>
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+        <h1 className="text-3xl font-black text-slate-950 dark:text-white">Profile</h1>
+        <p className="mt-1 text-slate-500 dark:text-slate-400">{isGuest ? "Guest learner" : user?.email}</p>
       </section>
       <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
         <section className="grid gap-4 sm:grid-cols-3">
           <Stat label="Streak" value={`${guestData.streak || 1} day`} />
           <Stat label="Topics" value={topicCount} />
           <Stat label="Flashcards" value={cardCount} />
-          <div className="rounded-3xl bg-white p-5 shadow-sm sm:col-span-3">
-            <h2 className="text-xl font-black">Achievements</h2>
+          <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10 sm:col-span-3">
+            <h2 className="text-xl font-black text-slate-950 dark:text-white">Achievements</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {["Started learning", "Built a study plan", cardCount > 0 ? "Made flashcards" : "Ready for revision"].map((item) => (
-                <span key={item} className="rounded-full bg-purple-50 px-4 py-2 text-sm font-bold text-purple-700">{item}</span>
+                <span key={item} className="rounded-full bg-purple-50 px-4 py-2 text-sm font-bold text-purple-700 dark:bg-purple-500/10 dark:text-purple-200">{item}</span>
               ))}
             </div>
           </div>
-          <div className="rounded-3xl bg-white p-5 shadow-sm sm:col-span-3">
-            <h2 className="text-xl font-black">Settings</h2>
+          <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10 sm:col-span-3">
+            <h2 className="text-xl font-black text-slate-950 dark:text-white">Settings</h2>
             <button onClick={logout} className="mt-4 rounded-xl bg-slate-950 px-5 py-3 font-bold text-white">
               {isGuest ? "Reset session" : "Log out"}
             </button>
@@ -45,9 +45,9 @@ export function ProfilePage({ go }) {
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded-3xl bg-white p-5 shadow-sm">
-      <p className="text-sm font-bold text-slate-500">{label}</p>
-      <p className="mt-2 text-3xl font-black">{value}</p>
+    <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+      <p className="text-sm font-bold text-slate-500 dark:text-slate-400">{label}</p>
+      <p className="mt-2 text-3xl font-black text-slate-950 dark:text-white">{value}</p>
     </div>
   );
 }

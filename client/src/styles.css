@@ -7,6 +7,11 @@
   background: #f7f9ff;
 }
 
+.dark {
+  color: #e5ecff;
+  background: #070b18;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -20,6 +25,15 @@ button, input, textarea, select {
 .glass {
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(18px);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.78);
+}
+
+::selection {
+  background: #7c3aed;
+  color: white;
 }
 
 .screen-enter {

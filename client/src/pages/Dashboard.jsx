@@ -38,10 +38,10 @@ export function Dashboard({ go }) {
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <section className="space-y-4">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-2xl font-black">Subjects Overview</h2>
+            <h2 className="text-2xl font-black text-slate-950 dark:text-white">Subjects Overview</h2>
             <form onSubmit={addSubject} className="flex gap-2">
               <input
-                className="w-40 rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                className="w-40 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder="New subject"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
@@ -58,18 +58,18 @@ export function Dashboard({ go }) {
                 <button
                   key={subject.id}
                   onClick={() => go("subject", { subjectId: subject.id })}
-                  className="rounded-2xl bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft"
+                  className="rounded-2xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-0.5 hover:shadow-soft dark:bg-slate-950/78 dark:ring-white/10"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <h3 className="text-lg font-black">{subject.name}</h3>
-                      <p className="text-sm text-slate-500">{subject.topics.length} topics</p>
+                      <h3 className="text-lg font-black text-slate-950 dark:text-white">{subject.name}</h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">{subject.topics.length} topics</p>
                     </div>
-                    <ArrowRight size={18} className="text-slate-400" />
+                    <ArrowRight size={18} className="text-slate-400 dark:text-slate-500" />
                   </div>
                   <div className="mt-5">
                     <ProgressBar value={subject.progress} />
-                    <p className="mt-2 text-sm font-semibold text-slate-600">{subject.progress}% complete</p>
+                    <p className="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-300">{subject.progress}% complete</p>
                   </div>
                 </button>
               ))}
@@ -78,20 +78,20 @@ export function Dashboard({ go }) {
         </section>
 
         <aside className="space-y-4">
-          <div className="rounded-2xl bg-white p-5 shadow-sm">
-            <h3 className="font-black">Continue Where You Left Off</h3>
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+            <h3 className="font-black text-slate-950 dark:text-white">Continue Where You Left Off</h3>
             {lastTopic ? (
-              <button onClick={() => go("topic", { subjectId: lastTopic.subjectId, topicId: lastTopic.id })} className="mt-4 w-full rounded-xl bg-blue-50 p-4 text-left text-blue-800">
+              <button onClick={() => go("topic", { subjectId: lastTopic.subjectId, topicId: lastTopic.id })} className="mt-4 w-full rounded-xl bg-blue-50 p-4 text-left text-blue-800 dark:bg-blue-500/10 dark:text-blue-200">
                 <span className="font-bold">{lastTopic.name}</span>
                 <span className="block text-sm">{lastTopic.progress}% studied</span>
               </button>
             ) : (
-              <p className="mt-3 text-sm text-slate-500">Add a topic to start your first session.</p>
+              <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Add a topic to start your first session.</p>
             )}
           </div>
-          <div className="rounded-2xl bg-white p-5 shadow-sm">
-            <h3 className="font-black">AI Recommendations</h3>
-            <p className="mt-3 text-sm text-slate-600">Review your lowest-progress topic, then ask AI to explain it with examples.</p>
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+            <h3 className="font-black text-slate-950 dark:text-white">AI Recommendations</h3>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">Review your lowest-progress topic, then ask AI to explain it with examples.</p>
           </div>
         </aside>
       </div>

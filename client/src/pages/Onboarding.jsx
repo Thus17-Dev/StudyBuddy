@@ -79,8 +79,8 @@ export function Onboarding({ go }) {
   ];
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(135deg,#eff6ff,#faf5ff)] px-5 py-10">
-      <section className="mx-auto max-w-5xl rounded-3xl bg-white/80 p-6 shadow-soft backdrop-blur-xl sm:p-10 screen-enter">
+    <main className="min-h-screen bg-[linear-gradient(135deg,#eff6ff,#faf5ff)] px-5 py-10 dark:bg-[linear-gradient(135deg,#070b18,#111827)]">
+      <section className="mx-auto max-w-5xl rounded-3xl bg-white/80 p-6 shadow-soft backdrop-blur-xl dark:bg-slate-950/72 sm:p-10 screen-enter">
         <p className="mb-6 text-sm font-bold uppercase tracking-wide text-blue-600">Step {step + 1} of 4</p>
         {screens[step]}
       </section>

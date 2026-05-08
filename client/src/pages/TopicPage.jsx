@@ -52,14 +52,14 @@ export function TopicPage({ go, subjectId, topicId }) {
 
   return (
     <div className="space-y-6">
-      <button onClick={() => go("subject", { subjectId })} className="flex items-center gap-2 text-sm font-bold text-slate-500">
+      <button onClick={() => go("subject", { subjectId })} className="flex items-center gap-2 text-sm font-bold text-slate-500 dark:text-slate-400">
         <ArrowLeft size={17} /> {subject.name}
       </button>
-      <section className="rounded-3xl bg-white p-6 shadow-sm">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-3xl font-black">{topic.name}</h1>
-            <p className="mt-1 text-slate-500">Only notes and flashcards linked to this topic are shown here.</p>
+            <h1 className="text-3xl font-black text-slate-950 dark:text-white">{topic.name}</h1>
+            <p className="mt-1 text-slate-500 dark:text-slate-400">Only notes and flashcards linked to this topic are shown here.</p>
           </div>
           <button onClick={() => go("study", { subjectId, topicId })} className="rounded-xl bg-slate-950 px-5 py-3 font-bold text-white">
             Study Session
@@ -67,17 +67,17 @@ export function TopicPage({ go, subjectId, topicId }) {
         </div>
         <div className="mt-5 max-w-lg">
           <ProgressBar value={topic.progress} />
-          <p className="mt-2 text-sm font-semibold text-slate-600">{topic.progress}% complete</p>
+          <p className="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-300">{topic.progress}% complete</p>
         </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="space-y-6">
-          <div className="rounded-3xl bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-black">Notes</h2>
+          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+            <h2 className="text-xl font-black text-slate-950 dark:text-white">Notes</h2>
             <form onSubmit={addNote} className="mt-4 space-y-3">
               <textarea
-                className="min-h-28 w-full rounded-2xl border border-slate-200 p-4"
+                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder={`Write notes for ${topic.name}`}
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
@@ -86,24 +86,24 @@ export function TopicPage({ go, subjectId, topicId }) {
             </form>
             <div className="mt-5 space-y-3">
               {topic.notes.map((item) => (
-                <article key={item.id} className="rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                <article key={item.id} className="rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700 dark:bg-white/5 dark:text-slate-300">
                   {item.content}
                 </article>
               ))}
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-black">Flashcards</h2>
+          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+            <h2 className="text-xl font-black text-slate-950 dark:text-white">Flashcards</h2>
             <form onSubmit={addManualFlashcard} className="mt-4 grid gap-3 sm:grid-cols-2">
               <input
-                className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder="Question"
                 value={manualCard.question}
                 onChange={(event) => setManualCard({ ...manualCard, question: event.target.value })}
               />
               <input
-                className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder="Answer"
                 value={manualCard.answer}
                 onChange={(event) => setManualCard({ ...manualCard, answer: event.target.value })}
@@ -113,13 +113,13 @@ export function TopicPage({ go, subjectId, topicId }) {
               </button>
             </form>
             {!topic.flashcards.length ? (
-              <p className="mt-3 text-sm text-slate-500">Generate flashcards with AI or add them from the Notes page.</p>
+              <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Generate flashcards with AI or add them from the Notes page.</p>
             ) : (
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {topic.flashcards.map((card) => (
-                  <div key={card.id} className="rounded-2xl border border-purple-100 bg-purple-50 p-4">
-                    <p className="font-bold text-purple-900">{card.question}</p>
-                    <p className="mt-2 text-sm text-purple-800">{card.answer}</p>
+                  <div key={card.id} className="rounded-2xl border border-purple-100 bg-purple-50 p-4 dark:border-purple-400/20 dark:bg-purple-500/10">
+                    <p className="font-bold text-purple-900 dark:text-purple-100">{card.question}</p>
+                    <p className="mt-2 text-sm text-purple-800 dark:text-purple-200">{card.answer}</p>
                   </div>
                 ))}
               </div>
@@ -127,8 +127,8 @@ export function TopicPage({ go, subjectId, topicId }) {
           </div>
         </div>
 
-        <aside className="rounded-3xl bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-black">AI tools</h2>
+        <aside className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+          <h2 className="text-xl font-black text-slate-950 dark:text-white">AI tools</h2>
           <div className="mt-4 grid gap-3">
             {[
               ["explain", "Explain", Bot],
@@ -140,7 +140,7 @@ export function TopicPage({ go, subjectId, topicId }) {
                 key={tool}
                 onClick={() => ai(tool)}
                 disabled={Boolean(loading)}
-                className="flex items-center gap-3 rounded-2xl border border-slate-100 p-4 text-left font-bold transition hover:bg-blue-50 disabled:opacity-60"
+                className="flex items-center gap-3 rounded-2xl border border-slate-100 p-4 text-left font-bold text-slate-800 transition hover:bg-blue-50 disabled:opacity-60 dark:border-white/10 dark:text-slate-100 dark:hover:bg-blue-500/10"
               >
                 <Icon size={20} className="text-blue-600" />
                 {loading === tool ? "Thinking..." : label}

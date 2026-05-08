@@ -28,8 +28,14 @@ export function AppProvider({ children }) {
   const [subjects, setSubjects] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [theme, setTheme] = useState(() => localStorage.getItem("studybuddy.theme") || "light");
 
   const isGuest = !token;
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("studybuddy.theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     if (!isGuest) {
@@ -315,9 +321,11 @@ export function AppProvider({ children }) {
       toggleTask,
       askAI,
       runTopicTool,
-      refreshSubjects
+      refreshSubjects,
+      theme,
+      toggleTheme: () => setTheme((current) => (current === "dark" ? "light" : "dark"))
     }),
-    [token, user, isGuest, guestData, subjects, busy, error]
+    [token, user, isGuest, guestData, subjects, busy, error, theme]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
