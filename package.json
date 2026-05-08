@@ -1,0 +1,24 @@
+{
+  "name": "studybuddy-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StudyBuddy.AI full-stack study assistant",
+  "scripts": {
+    "install:all": "npm install --workspaces",
+    "dev": "concurrently \"npm run dev --workspace server\" \"npm run dev --workspace client\"",
+    "build": "npm run build --workspace client",
+    "start": "npm run start --workspace server",
+    "db:generate": "npm run db:generate --workspace server",
+    "db:migrate": "npm run db:migrate --workspace server",
+    "db:push": "npm run db:push --workspace server",
+    "deploy:start": "npm run db:push --workspace server && npm run start --workspace server",
+    "db:seed": "npm run db:seed --workspace server"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

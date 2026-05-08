@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: studybuddy-ai
+    env: node
+    plan: free
+    buildCommand: npm install && npm run db:generate && npm run build
+    startCommand: npm run deploy:start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AI_PROVIDER
+        value: template
+      - key: CLIENT_URL
+        value: https://studybuddy-ai.onrender.com
