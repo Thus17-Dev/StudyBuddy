@@ -35,7 +35,7 @@ export function SettingsPage({ go }) {
             </select>
           </SettingCard>
 
-          <SettingCard title="Version info" text="StudyBuddy.AI v1.0.0 - public beta." icon={ShieldCheck} />
+          <SettingCard title="Version info" text="StudyBuddy.AI v1.1.0 - languages, whiteboard notes, reminders, and delete notes." icon={ShieldCheck} />
 
           <SettingCard
             title="v2 upgrade roadmap"

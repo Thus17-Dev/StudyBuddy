@@ -1,12 +1,12 @@
                                            import { useState } from "react";
-import { ArrowLeft, Bot, BookOpen, ChevronDown, ChevronRight, Layers, Sparkles } from "lucide-react";
+import { ArrowLeft, Bot, BookOpen, ChevronDown, ChevronRight, Layers, Sparkles, Trash2 } from "lucide-react";
 import { EmptyState, ProgressBar } from "../components/Shell.jsx";
 import { useStudyBuddy } from "../context/AppContext.jsx";
 import { parseFlashcards } from "../lib/guestStore.js";
 import { WhiteboardNote } from "../components/WhiteboardNote.jsx";
 
 export function TopicPage({ go, subjectId, topicId }) {
-  const { subjects, createNote, createFlashcard, runTopicTool, updateProgress } = useStudyBuddy();
+  const { subjects, createNote, deleteNote, createFlashcard, runTopicTool, updateProgress } = useStudyBuddy();
   const [note, setNote] = useState("");
   const [manualCard, setManualCard] = useState({ question: "", answer: "" });
   const [aiResult, setAiResult] = useState("");
@@ -102,6 +102,14 @@ export function TopicPage({ go, subjectId, topicId }) {
                   {topic.notes.map((item) => (
                     <article key={item.id} className="rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700 dark:bg-white/5 dark:text-slate-300">
                       <NoteContent content={item.content} />
+                      <button
+                        onClick={() => {
+                          if (confirm("Delete this note?")) deleteNote(topic.id, item.id);
+                        }}
+                        className="mt-3 flex items-center gap-2 rounded-xl bg-rose-600 px-3 py-2 text-xs font-bold text-white"
+                      >
+                        <Trash2 size={14} /> Delete note
+                      </button>
                     </article>
                   ))}
                 </div>

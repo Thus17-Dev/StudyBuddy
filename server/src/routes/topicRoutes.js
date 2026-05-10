@@ -84,6 +84,25 @@ topicRoutes.put("/:topicId/notes/:noteId", async (req, res, next) => {
   }
 });
 
+topicRoutes.delete("/:topicId/notes/:noteId", async (req, res, next) => {
+  try {
+    await assertTopicOwner(req.params.topicId, req.user.id);
+    const existing = await prisma.note.findFirst({
+      where: {
+        id: Number(req.params.noteId),
+        topicId: Number(req.params.topicId)
+      }
+    });
+    if (!existing) {
+      return res.status(404).json({ message: "Note not found." });
+    }
+    await prisma.note.delete({ where: { id: existing.id } });
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+});
+
 topicRoutes.get("/:topicId/flashcards", async (req, res, next) => {
   try {
     await assertTopicOwner(req.params.topicId, req.user.id);

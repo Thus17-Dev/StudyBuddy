@@ -210,6 +210,19 @@ export function AppProvider({ children }) {
     await refreshSubjects();
   }
 
+  async function deleteNote(topicId, noteId) {
+    if (isGuest) {
+      updateGuest((data) => {
+        const topic = findTopic(data.subjects, topicId);
+        topic.notes = (topic.notes || []).filter((note) => note.id !== noteId);
+        return data;
+      });
+      return;
+    }
+    await request(`/topics/${topicId}/notes/${noteId}`, { token, method: "DELETE" });
+    await refreshSubjects();
+  }
+
   async function createFlashcard(topicId, question, answer) {
     if (isGuest) {
       updateGuest((data) => {
@@ -331,6 +344,7 @@ export function AppProvider({ children }) {
       createTopic,
       createNote,
       updateNote,
+      deleteNote,
       createFlashcard,
       updateProgress,
       createTask,

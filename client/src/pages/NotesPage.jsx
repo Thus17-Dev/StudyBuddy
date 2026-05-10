@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useStudyBuddy } from "../context/AppContext.jsx";
 import { parseFlashcards } from "../lib/guestStore.js";
+import { Trash2 } from "lucide-react";
 
 export function NotesPage({ go }) {
-  const { subjects, createNote, updateNote, createFlashcard, runTopicTool } = useStudyBuddy();
+  const { subjects, createNote, updateNote, deleteNote, createFlashcard, runTopicTool } = useStudyBuddy();
   const topics = subjects.flatMap((subject) => subject.topics.map((topic) => ({ ...topic, subjectId: subject.id, subjectName: subject.name })));
   const [topicId, setTopicId] = useState(topics[0]?.id || "");
   const [content, setContent] = useState("");
@@ -75,7 +76,7 @@ export function NotesPage({ go }) {
 
           <div className="mt-6 space-y-4">
             {topic?.notes.map((note) => (
-              <EditableNote key={note.id} note={note} topicId={topic.id} updateNote={updateNote} />
+              <EditableNote key={note.id} note={note} topicId={topic.id} updateNote={updateNote} deleteNote={deleteNote} />
             ))}
             {!topic?.notes.length && <p className="text-sm text-slate-500 dark:text-slate-400">No notes for this topic yet.</p>}
           </div>
@@ -85,7 +86,7 @@ export function NotesPage({ go }) {
   );
 }
 
-function EditableNote({ note, topicId, updateNote }) {
+function EditableNote({ note, topicId, updateNote, deleteNote }) {
   const [value, setValue] = useState(note.content);
   const [saved, setSaved] = useState(false);
 
@@ -93,6 +94,11 @@ function EditableNote({ note, topicId, updateNote }) {
     await updateNote(topicId, note.id, value);
     setSaved(true);
     setTimeout(() => setSaved(false), 1200);
+  }
+
+  async function remove() {
+    if (!confirm("Delete this note?")) return;
+    await deleteNote(topicId, note.id);
   }
 
   return (
@@ -105,9 +111,14 @@ function EditableNote({ note, topicId, updateNote }) {
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-      <button onClick={save} className="mt-3 rounded-xl bg-slate-950 px-4 py-2 text-sm font-bold text-white">
-        {saved ? "Saved" : "Save edit"}
-      </button>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button onClick={save} className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-bold text-white dark:bg-white dark:text-slate-950">
+          {saved ? "Saved" : "Save edit"}
+        </button>
+        <button onClick={remove} className="flex items-center gap-2 rounded-xl bg-rose-600 px-4 py-2 text-sm font-bold text-white">
+          <Trash2 size={15} /> Delete
+        </button>
+      </div>
     </article>
   );
 }

@@ -10,7 +10,7 @@ const nav = [
 ];
 
 export function Shell({ children, current, go }) {
-  const { user, isGuest, theme, toggleTheme } = useStudyBuddy();
+  const { user, isGuest, theme, toggleTheme, language } = useStudyBuddy();
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_15%_10%,#bfdbfe,transparent_26%),radial-gradient(circle_at_85%_0%,#e9d5ff,transparent_28%),linear-gradient(135deg,#f8fbff,#f7f3ff)] pb-24 text-slate-900 transition-colors dark:bg-[radial-gradient(circle_at_15%_10%,rgba(37,99,235,.34),transparent_28%),radial-gradient(circle_at_90%_0%,rgba(147,51,234,.28),transparent_28%),linear-gradient(135deg,#061a3a,#102044)] dark:text-slate-100">
@@ -26,6 +26,13 @@ export function Shell({ children, current, go }) {
           <div className="ml-auto hidden flex-1 max-w-md items-center rounded-xl bg-slate-100 px-4 py-2 text-sm text-slate-500 ring-1 ring-transparent transition-colors sm:flex dark:bg-[#102044] dark:text-slate-400 dark:ring-white/10">
             Search subjects, topics, notes...
           </div>
+          <button
+            onClick={() => go("settings")}
+            className="hidden rounded-xl bg-white px-3 py-2 text-xs font-black text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 dark:bg-[#102044] dark:text-slate-200 dark:ring-white/10 sm:block"
+            title="Language"
+          >
+            {language === "English" ? "EN" : language}
+          </button>
           <button
             onClick={toggleTheme}
             className="grid h-10 w-10 place-items-center rounded-xl bg-white text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 dark:bg-[#102044] dark:text-slate-200 dark:ring-white/10"
