@@ -29,6 +29,7 @@ export function AppProvider({ children }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [theme, setTheme] = useState(() => localStorage.getItem("studybuddy.theme") || "light");
+  const [language, setLanguage] = useState(() => localStorage.getItem("studybuddy.language") || "English");
 
   const isGuest = !token;
 
@@ -36,6 +37,10 @@ export function AppProvider({ children }) {
     document.documentElement.classList.toggle("dark", theme === "dark");
     localStorage.setItem("studybuddy.theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("studybuddy.language", language);
+  }, [language]);
 
   useEffect(() => {
     if (!isGuest) {
@@ -277,7 +282,13 @@ export function AppProvider({ children }) {
 
   async function askAI(messages) {
     try {
-      return await request("/ai/chat", { method: "POST", body: JSON.stringify({ messages }) });
+      const localizedMessages = messages.map((message, index) => {
+        if (index === messages.length - 1 && message.role === "user" && language !== "English") {
+          return { ...message, content: `Please answer in ${language}. ${message.content}` };
+        }
+        return message;
+      });
+      return await request("/ai/chat", { method: "POST", body: JSON.stringify({ messages: localizedMessages }) });
     } catch (error) {
       return {
         answer: `AI could not answer yet: ${error.message}`
@@ -328,9 +339,11 @@ export function AppProvider({ children }) {
       runTopicTool,
       refreshSubjects,
       theme,
-      toggleTheme: () => setTheme((current) => (current === "dark" ? "light" : "dark"))
+      toggleTheme: () => setTheme((current) => (current === "dark" ? "light" : "dark")),
+      language,
+      setLanguage
     }),
-    [token, user, isGuest, guestData, subjects, busy, error, theme]
+    [token, user, isGuest, guestData, subjects, busy, error, theme, language]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

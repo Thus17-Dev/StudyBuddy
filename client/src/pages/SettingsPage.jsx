@@ -3,7 +3,7 @@ import { AuthPanel } from "../components/AuthPanel.jsx";
 import { useStudyBuddy } from "../context/AppContext.jsx";
 
 export function SettingsPage({ go }) {
-  const { isGuest, user, logout, theme, toggleTheme, guestData } = useStudyBuddy();
+  const { isGuest, user, logout, theme, toggleTheme, guestData, language, setLanguage } = useStudyBuddy();
 
   return (
     <div className="space-y-6">
@@ -20,13 +20,28 @@ export function SettingsPage({ go }) {
             </button>
           </SettingCard>
 
-          <SettingCard title="Language" text="English is active. More languages can be added later.">
-            <select className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 dark:border-white/10 dark:bg-[#102044] dark:text-white">
+          <SettingCard title="Language" text="Choose the language for StudyBuddy labels and future AI instructions.">
+            <select
+              value={language}
+              onChange={(event) => setLanguage(event.target.value)}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 dark:border-white/10 dark:bg-[#102044] dark:text-white"
+            >
               <option>English</option>
+              <option>Bahasa Melayu</option>
+              <option>中文</option>
+              <option>Tamil</option>
+              <option>Indonesian</option>
+              <option>Spanish</option>
             </select>
           </SettingCard>
 
           <SettingCard title="Version info" text="StudyBuddy.AI v1.0.0 - public beta." icon={ShieldCheck} />
+
+          <SettingCard
+            title="v2 upgrade roadmap"
+            text="Future features: group study mode, parent dashboard, smart weak-topic reminders, and offline mode."
+            icon={ShieldCheck}
+          />
 
           <SettingCard title="Help" text="Need help using notes, tasks, flashcards, or AI chat?" icon={HelpCircle}>
             <a href="mailto:feedback@studybuddy.local" className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-bold text-white dark:bg-white dark:text-slate-950">

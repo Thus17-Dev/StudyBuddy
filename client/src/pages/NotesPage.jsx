@@ -97,6 +97,9 @@ function EditableNote({ note, topicId, updateNote }) {
 
   return (
     <article className="rounded-2xl bg-slate-50 p-4 dark:bg-white/5">
+      {note.content.startsWith("WHITEBOARD_NOTE::") && (
+        <img src={note.content.replace("WHITEBOARD_NOTE::", "")} alt="Whiteboard note" className="mb-3 max-h-96 w-full rounded-xl bg-white object-contain" />
+      )}
       <textarea
         className="min-h-24 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
         value={value}

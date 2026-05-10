@@ -105,6 +105,9 @@ A: Read notes, test yourself, and explain it without looking.`;
 
 function answerSimpleQuestion(input) {
   const question = input.toLowerCase().replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+  const mathAnswer = answerMath(question);
+  if (mathAnswer) return mathAnswer;
+
   const asksUsPresident =
     question.includes("president") &&
     (question.includes("usa") ||
@@ -145,13 +148,52 @@ A: JD Vance.`;
     return "Hi, I am StudyBuddy.AI. Ask me a study question, or paste notes and I can summarise them, make practice questions, or create flashcards.";
   }
 
+  if (question.includes("capital") && question.includes("malaysia")) {
+    return `The capital of Malaysia is Kuala Lumpur.
+
+Flashcard
+Q: What is the capital of Malaysia?
+A: Kuala Lumpur.`;
+  }
+
+  if (question.includes("capital") && (question.includes("usa") || question.includes("united states") || question.includes("america"))) {
+    return `The capital of the United States is Washington, D.C.
+
+Flashcard
+Q: What is the capital of the United States?
+A: Washington, D.C.`;
+  }
+
   return "";
+}
+
+function answerMath(question) {
+  const expression = question.match(/(?:what is|calculate|solve)?\s*([0-9+\-*/().\s]+)$/)?.[1]?.trim();
+  if (!expression || !/[+\-*/]/.test(expression)) return "";
+  if (!/^[0-9+\-*/().\s]+$/.test(expression)) return "";
+
+  try {
+    const result = Function(`"use strict"; return (${expression})`)();
+    if (!Number.isFinite(result)) return "";
+    return `The answer is ${result}.
+
+Steps:
+- Expression: ${expression}
+- Calculate carefully using order of operations.
+- Result: ${result}
+
+Flashcard
+Q: What is ${expression}?
+A: ${result}.`;
+  } catch {
+    return "";
+  }
 }
 
 function makeSimpleExplanation(input) {
   const cleaned = input.replace(/^tell me\s+/i, "").replace(/^explain\s+/i, "").replace(/^can i know\s+/i, "").trim();
   if (cleaned.length < 80) {
-    return `You asked about "${cleaned}". In free hosted mode, I can help structure your learning, make simple summaries, and create flashcards. For deeper live AI answers, connect OpenAI billing or run Ollama locally.`;
+    return `You asked about "${cleaned}". I can help you study it by breaking it into the main idea, key details, examples, practice questions, and flashcards. For full ChatGPT-style open questions, connect OpenAI billing or run Ollama locally.`;
   }
   return "Here is a student-friendly way to study this: identify the main idea, underline key details, then test yourself with short questions.";
 }

@@ -1,18 +1,59 @@
-import { ArrowRight, Bot, BookOpen, NotebookText, RotateCcw } from "lucide-react";
+import { ArrowRight, Bell, Bot, BookOpen, Clock, Flame, NotebookText, RotateCcw } from "lucide-react";
 import { EmptyState, ProgressBar } from "../components/Shell.jsx";
 import { useStudyBuddy } from "../context/AppContext.jsx";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function Dashboard({ go }) {
-  const { subjects, createSubject, isGuest } = useStudyBuddy();
+  const { subjects, createSubject, isGuest, guestData } = useStudyBuddy();
   const [name, setName] = useState("");
+  const [focusSeconds, setFocusSeconds] = useState(25 * 60);
+  const [timerActive, setTimerActive] = useState(false);
+  const [reviseReminder, setReviseReminder] = useState(() => localStorage.getItem("studybuddy.reviseReminder") === "on");
   const lastTopic = subjects.flatMap((subject) => subject.topics.map((topic) => ({ ...topic, subjectId: subject.id }))).at(0);
+  const weakTopics = useMemo(
+    () =>
+      subjects
+        .flatMap((subject) => subject.topics.map((topic) => ({ ...topic, subjectName: subject.name, subjectId: subject.id })))
+        .sort((a, b) => (a.progress || 0) - (b.progress || 0))
+        .slice(0, 4),
+    [subjects]
+  );
+
+  useEffect(() => {
+    if (!timerActive) return;
+    const id = setInterval(() => {
+      setFocusSeconds((seconds) => {
+        if (seconds <= 1) {
+          setTimerActive(false);
+          notify("Focus session complete", "Nice work. Take a short break, then revise one weak topic.");
+          return 25 * 60;
+        }
+        return seconds - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [timerActive]);
+
+  useEffect(() => {
+    if (!reviseReminder) return;
+    const id = setInterval(() => notify("Time to revise", "Open StudyBuddy and review one weak topic."), 60 * 60 * 1000);
+    return () => clearInterval(id);
+  }, [reviseReminder]);
 
   async function addSubject(event) {
     event.preventDefault();
     if (!name.trim()) return;
     await createSubject(name.trim());
     setName("");
+  }
+
+  async function enableRevisionReminder() {
+    if ("Notification" in window) {
+      await Notification.requestPermission();
+    }
+    localStorage.setItem("studybuddy.reviseReminder", "on");
+    setReviseReminder(true);
+    notify("Revision reminders enabled", "I will remind you while StudyBuddy is open.");
   }
 
   return (
@@ -32,6 +73,43 @@ export function Dashboard({ go }) {
               <span className="mt-3 block">{label}</span>
             </button>
           ))}
+        </div>
+      </section>
+
+      <section className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
+          <div className="flex items-center gap-3">
+            <Flame className="text-orange-500" />
+            <div>
+              <p className="text-sm font-bold text-slate-500 dark:text-slate-400">Streak</p>
+              <h2 className="text-2xl font-black text-slate-950 dark:text-white">{guestData.streak || 1} day</h2>
+            </div>
+          </div>
+          <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Daily motivation: one small revision keeps the streak alive.</p>
+        </div>
+        <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
+          <div className="flex items-center gap-3">
+            <Clock className="text-blue-600" />
+            <div>
+              <p className="text-sm font-bold text-slate-500 dark:text-slate-400">Focus mode</p>
+              <h2 className="text-2xl font-black text-slate-950 dark:text-white">{formatTime(focusSeconds)}</h2>
+            </div>
+          </div>
+          <button onClick={() => setTimerActive((active) => !active)} className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white">
+            {timerActive ? "Pause timer" : "Start 25 min"}
+          </button>
+        </div>
+        <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
+          <div className="flex items-center gap-3">
+            <Bell className="text-purple-600" />
+            <div>
+              <p className="text-sm font-bold text-slate-500 dark:text-slate-400">Revision reminders</p>
+              <h2 className="text-2xl font-black text-slate-950 dark:text-white">{reviseReminder ? "On" : "Off"}</h2>
+            </div>
+          </div>
+          <button onClick={enableRevisionReminder} className="mt-4 rounded-xl bg-purple-600 px-4 py-2 text-sm font-bold text-white">
+            {reviseReminder ? "Reminder enabled" : "Enable reminder"}
+          </button>
         </div>
       </section>
 
@@ -65,7 +143,10 @@ export function Dashboard({ go }) {
                       <h3 className="text-lg font-black text-slate-950 dark:text-white">{subject.name}</h3>
                       <p className="text-sm text-slate-500 dark:text-slate-400">{subject.topics.length} topics</p>
                     </div>
-                    <ArrowRight size={18} className="text-slate-400 dark:text-slate-500" />
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{subjectIcon(subject.name)}</span>
+                      <ArrowRight size={18} className="text-slate-400 dark:text-slate-500" />
+                    </div>
                   </div>
                   <div className="mt-5">
                     <ProgressBar value={subject.progress} />
@@ -93,9 +174,48 @@ export function Dashboard({ go }) {
             <h3 className="font-black text-slate-950 dark:text-white">AI Recommendations</h3>
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">Review your lowest-progress topic, then ask AI to explain it with examples.</p>
           </div>
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
+            <h3 className="font-black text-slate-950 dark:text-white">Smart Revision Table</h3>
+            <div className="mt-3 space-y-2">
+              {weakTopics.map((topic) => (
+                <button
+                  key={topic.id}
+                  onClick={() => go("topic", { subjectId: topic.subjectId, topicId: topic.id })}
+                  className="w-full rounded-xl bg-slate-50 p-3 text-left text-sm dark:bg-white/5"
+                >
+                  <span className="font-bold text-slate-900 dark:text-white">{topic.name}</span>
+                  <span className="block text-xs text-slate-500 dark:text-slate-400">{topic.subjectName} / {topic.progress || 0}% / revise soon</span>
+                </button>
+              ))}
+              {!weakTopics.length && <p className="text-sm text-slate-500 dark:text-slate-400">Add topics to build your revision plan.</p>}
+            </div>
+          </div>
         </aside>
       </div>
     </div>
   );
+}
+
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const rest = String(seconds % 60).padStart(2, "0");
+  return `${minutes}:${rest}`;
+}
+
+function notify(title, body) {
+  if ("Notification" in window && Notification.permission === "granted") {
+    new Notification(title, { body, icon: "/icons/logo-192.png" });
+  }
+}
+
+function subjectIcon(name) {
+  const lower = name.toLowerCase();
+  if (lower.includes("math")) return "∑";
+  if (lower.includes("science") || lower.includes("physics") || lower.includes("chemistry")) return "⚛";
+  if (lower.includes("history")) return "📜";
+  if (lower.includes("english")) return "Aa";
+  if (lower.includes("biology")) return "🧬";
+  if (lower.includes("computer")) return "</>";
+  return "✦";
 }
 
