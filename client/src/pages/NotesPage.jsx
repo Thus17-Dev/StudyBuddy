@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useStudyBuddy } from "../context/AppContext.jsx";
 import { parseFlashcards } from "../lib/guestStore.js";
 import { Trash2 } from "lucide-react";
+import { t } from "../lib/i18n.js";
 
 export function NotesPage({ go }) {
-  const { subjects, createNote, updateNote, deleteNote, createFlashcard, runTopicTool } = useStudyBuddy();
+  const { subjects, createNote, updateNote, deleteNote, createFlashcard, runTopicTool, language } = useStudyBuddy();
   const topics = subjects.flatMap((subject) => subject.topics.map((topic) => ({ ...topic, subjectId: subject.id, subjectName: subject.name })));
   const [topicId, setTopicId] = useState(topics[0]?.id || "");
   const [content, setContent] = useState("");
@@ -39,8 +40,8 @@ export function NotesPage({ go }) {
   return (
     <div className="space-y-6">
       <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
-        <h1 className="text-3xl font-black text-slate-950 dark:text-white">Notes</h1>
-        <p className="mt-1 text-slate-500 dark:text-slate-400">Create, edit, and convert topic notes into flashcards.</p>
+        <h1 className="text-3xl font-black text-slate-950 dark:text-white">{t(language, "notesTitle")}</h1>
+        <p className="mt-1 text-slate-500 dark:text-slate-400">{t(language, "notesSubtitle")}</p>
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[360px_1fr]">

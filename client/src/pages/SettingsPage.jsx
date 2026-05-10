@@ -1,6 +1,7 @@
 import { HelpCircle, LogIn, LogOut, MessageSquare, ShieldCheck } from "lucide-react";
 import { AuthPanel } from "../components/AuthPanel.jsx";
 import { useStudyBuddy } from "../context/AppContext.jsx";
+import { t } from "../lib/i18n.js";
 
 export function SettingsPage({ go }) {
   const { isGuest, user, logout, theme, toggleTheme, guestData, language, setLanguage } = useStudyBuddy();
@@ -8,8 +9,8 @@ export function SettingsPage({ go }) {
   return (
     <div className="space-y-6">
       <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
-        <h1 className="text-3xl font-black text-slate-950 dark:text-white">Settings</h1>
-        <p className="mt-1 text-slate-500 dark:text-slate-400">Account, language, help, and app info.</p>
+        <h1 className="text-3xl font-black text-slate-950 dark:text-white">{t(language, "settingsTitle")}</h1>
+        <p className="mt-1 text-slate-500 dark:text-slate-400">{t(language, "settingsSubtitle")}</p>
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
@@ -20,7 +21,7 @@ export function SettingsPage({ go }) {
             </button>
           </SettingCard>
 
-          <SettingCard title="Language" text="Choose the language for StudyBuddy labels and future AI instructions.">
+          <SettingCard title={t(language, "language")} text="Choose the language for StudyBuddy labels and future AI instructions.">
             <select
               value={language}
               onChange={(event) => setLanguage(event.target.value)}
@@ -28,7 +29,7 @@ export function SettingsPage({ go }) {
             >
               <option>English</option>
               <option>Bahasa Melayu</option>
-              <option>中文</option>
+              <option value="Chinese">Chinese</option>
               <option>Tamil</option>
               <option>Indonesian</option>
               <option>Spanish</option>
@@ -44,13 +45,13 @@ export function SettingsPage({ go }) {
           />
 
           <SettingCard title="Help" text="Need help using notes, tasks, flashcards, or AI chat?" icon={HelpCircle}>
-            <a href="mailto:feedback@studybuddy.local" className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-bold text-white dark:bg-white dark:text-slate-950">
+            <a href="mailto:thusanthr@outlook.com?subject=StudyBuddy%20Help" className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-bold text-white dark:bg-white dark:text-slate-950">
               Contact help
             </a>
           </SettingCard>
 
           <SettingCard title="Send feedback" text="Tell us what to improve next." icon={MessageSquare}>
-            <a href="mailto:feedback@studybuddy.local?subject=StudyBuddy%20Feedback" className="rounded-xl bg-purple-600 px-4 py-2 text-sm font-bold text-white">
+            <a href="mailto:thusanthr@outlook.com?subject=StudyBuddy%20Feedback" className="rounded-xl bg-purple-600 px-4 py-2 text-sm font-bold text-white">
               Send feedback
             </a>
           </SettingCard>

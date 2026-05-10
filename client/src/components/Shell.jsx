@@ -1,12 +1,13 @@
 import { Bot, CheckSquare, Home, Moon, NotebookText, Settings, Sun, UserRound } from "lucide-react";
 import { useStudyBuddy } from "../context/AppContext.jsx";
+import { t } from "../lib/i18n.js";
 
 const nav = [
-  { id: "home", label: "Home", icon: Home },
-  { id: "chat", label: "AI Chat", icon: Bot },
-  { id: "notes", label: "Notes", icon: NotebookText },
-  { id: "tasks", label: "Tasks", icon: CheckSquare },
-  { id: "profile", label: "Profile", icon: UserRound }
+  { id: "home", labelKey: "home", icon: Home },
+  { id: "chat", labelKey: "chat", icon: Bot },
+  { id: "notes", labelKey: "notes", icon: NotebookText },
+  { id: "tasks", labelKey: "tasks", icon: CheckSquare },
+  { id: "profile", labelKey: "profile", icon: UserRound }
 ];
 
 export function Shell({ children, current, go }) {
@@ -20,11 +21,11 @@ export function Shell({ children, current, go }) {
             <img src="/icons/logo-192.png" alt="StudyBuddy.AI" className="h-10 w-10 rounded-xl object-cover" />
             <div>
               <p className="text-sm font-black leading-tight text-slate-950 dark:text-white">StudyBuddy.AI</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{isGuest ? "Guest progress" : user?.name}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{isGuest ? t(language, "guest") : user?.name}</p>
             </div>
           </button>
           <div className="ml-auto hidden flex-1 max-w-md items-center rounded-xl bg-slate-100 px-4 py-2 text-sm text-slate-500 ring-1 ring-transparent transition-colors sm:flex dark:bg-[#102044] dark:text-slate-400 dark:ring-white/10">
-            Search subjects, topics, notes...
+            {t(language, "search")}
           </div>
           <button
             onClick={() => go("settings")}
@@ -66,7 +67,7 @@ export function Shell({ children, current, go }) {
                 }`}
               >
                 <Icon size={18} />
-                <span className="truncate">{item.label}</span>
+                <span className="truncate">{t(language, item.labelKey)}</span>
               </button>
             );
           })}
