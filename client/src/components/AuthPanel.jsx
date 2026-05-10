@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useStudyBuddy } from "../context/AppContext.jsx";
 
-export function AuthPanel({ onDone }) {
+export function AuthPanel({ onDone, defaultMode = "signup" }) {
   const { signup, login, busy, error, isGuest } = useStudyBuddy();
-  const [mode, setMode] = useState("signup");
+  const [mode, setMode] = useState(defaultMode);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
 
   async function submit(event) {
@@ -17,8 +17,8 @@ export function AuthPanel({ onDone }) {
   }
 
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
-      <div className="mb-4 flex rounded-xl bg-slate-100 p-1 text-sm font-semibold dark:bg-slate-900">
+    <div className="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
+      <div className="mb-4 flex rounded-xl bg-slate-100 p-1 text-sm font-semibold dark:bg-[#102044]">
         <button
           onClick={() => setMode("signup")}
           className={`flex-1 rounded-lg py-2 ${mode === "signup" ? "bg-white text-slate-950 shadow-sm dark:bg-slate-800 dark:text-white" : "text-slate-500 dark:text-slate-400"}`}
@@ -35,7 +35,7 @@ export function AuthPanel({ onDone }) {
       <form onSubmit={submit} className="space-y-3">
         {mode === "signup" && (
           <input
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
             placeholder="Name"
             value={form.name}
             onChange={(event) => setForm({ ...form, name: event.target.value })}
@@ -43,7 +43,7 @@ export function AuthPanel({ onDone }) {
           />
         )}
         <input
-          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
           placeholder="Email"
           type="email"
           value={form.email}
@@ -51,7 +51,7 @@ export function AuthPanel({ onDone }) {
           required
         />
         <input
-          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
           placeholder="Password"
           type="password"
           minLength={mode === "signup" ? 8 : 1}
@@ -75,3 +75,4 @@ export function AuthPanel({ onDone }) {
     </div>
   );
 }
+

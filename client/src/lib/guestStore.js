@@ -13,6 +13,7 @@ export function emptyGuestData() {
     subjects: [],
     chats: [],
     selectedLevel: "",
+    selectedGrade: "",
     onboardingDone: false,
     streak: 1,
     achievements: ["Started learning"]
@@ -82,3 +83,4 @@ export function parseFlashcards(text) {
   }
   return cards.filter((card) => card.question && card.answer);
 }
+

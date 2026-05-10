@@ -105,8 +105,16 @@ A: Read notes, test yourself, and explain it without looking.`;
 
 function answerSimpleQuestion(input) {
   const question = input.toLowerCase().replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+  const asksUsPresident =
+    question.includes("president") &&
+    (question.includes("usa") ||
+      question.includes("u s") ||
+      question.includes("united states") ||
+      question.includes("america") ||
+      question.includes("american"));
 
   if (
+    asksUsPresident ||
     question.includes("president of usa") ||
     question.includes("president of the usa") ||
     question.includes("president of us") ||
@@ -141,7 +149,7 @@ A: JD Vance.`;
 }
 
 function makeSimpleExplanation(input) {
-  const cleaned = input.replace(/^tell me\s+/i, "").replace(/^explain\s+/i, "").trim();
+  const cleaned = input.replace(/^tell me\s+/i, "").replace(/^explain\s+/i, "").replace(/^can i know\s+/i, "").trim();
   if (cleaned.length < 80) {
     return `You asked about "${cleaned}". In free hosted mode, I can help structure your learning, make simple summaries, and create flashcards. For deeper live AI answers, connect OpenAI billing or run Ollama locally.`;
   }

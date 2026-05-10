@@ -70,9 +70,10 @@ export function AppProvider({ children }) {
     }
   }
 
-  async function continueAsGuest(level = "High School", selectedSubjects = ["Math", "Science"]) {
+  async function continueAsGuest(level = "High School", selectedSubjects = ["Math", "Science"], selectedGrade = "") {
     updateGuest((data) => {
       data.selectedLevel = level;
+      data.selectedGrade = selectedGrade;
       data.onboardingDone = true;
       if (!data.subjects.length) {
         data.subjects = selectedSubjects.map((name) => ({
@@ -147,28 +148,32 @@ export function AppProvider({ children }) {
 
   async function createSubject(name) {
     if (isGuest) {
+      const subject = { id: makeId("subject"), name, topics: [], tasks: [], progress: 0 };
       updateGuest((data) => {
-        data.subjects.unshift({ id: makeId("subject"), name, topics: [], tasks: [], progress: 0 });
+        data.subjects.unshift(subject);
         return data;
       });
-      return;
+      return subject;
     }
-    await request("/subjects", { token, method: "POST", body: JSON.stringify({ name }) });
+    const subject = await request("/subjects", { token, method: "POST", body: JSON.stringify({ name }) });
     await refreshSubjects();
+    return subject;
   }
 
   async function createTopic(subjectId, name) {
     if (isGuest) {
+      const topic = { id: makeId("topic"), subjectId, name, progress: 0, notes: [], flashcards: [] };
       updateGuest((data) => {
         const subject = data.subjects.find((item) => item.id === subjectId);
-        subject.topics.push({ id: makeId("topic"), subjectId, name, progress: 0, notes: [], flashcards: [] });
+        subject.topics.push(topic);
         subject.progress = averageProgress(subject.topics);
         return data;
       });
-      return;
+      return topic;
     }
-    await request(`/subjects/${subjectId}/topics`, { token, method: "POST", body: JSON.stringify({ name }) });
+    const topic = await request(`/subjects/${subjectId}/topics`, { token, method: "POST", body: JSON.stringify({ name }) });
     await refreshSubjects();
+    return topic;
   }
 
   async function createNote(topicId, content) {
@@ -371,3 +376,4 @@ function localStudyResponse(tool, topic, content) {
 
   return `Explanation for ${topicName}\n\n1. Start with the main idea.\n2. Break it into smaller parts.\n3. Connect each part to an example.\n\nAdd your OpenAI API key in server/.env to get full AI explanations.`;
 }
+

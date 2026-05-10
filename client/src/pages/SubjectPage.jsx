@@ -22,7 +22,7 @@ export function SubjectPage({ go, subjectId }) {
       <button onClick={() => go("home")} className="flex items-center gap-2 text-sm font-bold text-slate-500 dark:text-slate-400">
         <ArrowLeft size={17} /> Home
       </button>
-      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
         <h1 className="text-3xl font-black text-slate-950 dark:text-white">{subject.name}</h1>
         <p className="mt-1 text-slate-500 dark:text-slate-400">Subject progress</p>
         <div className="mt-5 max-w-lg">
@@ -30,12 +30,12 @@ export function SubjectPage({ go, subjectId }) {
           <p className="mt-2 text-sm font-semibold text-slate-600 dark:text-slate-300">{subject.progress}% complete</p>
         </div>
       </section>
-      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-2xl font-black text-slate-950 dark:text-white">Topics</h2>
           <form onSubmit={addTopic} className="flex gap-2">
             <input
-              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
               placeholder="Add topic"
               value={name}
               onChange={(event) => setName(event.target.value)}
@@ -72,3 +72,4 @@ export function SubjectPage({ go, subjectId }) {
     </div>
   );
 }
+

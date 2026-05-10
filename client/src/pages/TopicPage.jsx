@@ -55,7 +55,7 @@ export function TopicPage({ go, subjectId, topicId }) {
       <button onClick={() => go("subject", { subjectId })} className="flex items-center gap-2 text-sm font-bold text-slate-500 dark:text-slate-400">
         <ArrowLeft size={17} /> {subject.name}
       </button>
-      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-3xl font-black text-slate-950 dark:text-white">{topic.name}</h1>
@@ -73,11 +73,11 @@ export function TopicPage({ go, subjectId, topicId }) {
 
       <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="space-y-6">
-          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
             <h2 className="text-xl font-black text-slate-950 dark:text-white">Notes</h2>
             <form onSubmit={addNote} className="mt-4 space-y-3">
               <textarea
-                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
                 placeholder={`Write notes for ${topic.name}`}
                 value={note}
                 onChange={(event) => setNote(event.target.value)}
@@ -93,17 +93,17 @@ export function TopicPage({ go, subjectId, topicId }) {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+          <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
             <h2 className="text-xl font-black text-slate-950 dark:text-white">Flashcards</h2>
             <form onSubmit={addManualFlashcard} className="mt-4 grid gap-3 sm:grid-cols-2">
               <input
-                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
                 placeholder="Question"
                 value={manualCard.question}
                 onChange={(event) => setManualCard({ ...manualCard, question: event.target.value })}
               />
               <input
-                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+                className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
                 placeholder="Answer"
                 value={manualCard.answer}
                 onChange={(event) => setManualCard({ ...manualCard, answer: event.target.value })}
@@ -127,7 +127,7 @@ export function TopicPage({ go, subjectId, topicId }) {
           </div>
         </div>
 
-        <aside className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+        <aside className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
           <h2 className="text-xl font-black text-slate-950 dark:text-white">AI tools</h2>
           <div className="mt-4 grid gap-3">
             {[
@@ -157,3 +157,4 @@ export function TopicPage({ go, subjectId, topicId }) {
     </div>
   );
 }
+

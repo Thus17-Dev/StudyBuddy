@@ -11,6 +11,8 @@ import { NotesPage } from "./pages/NotesPage.jsx";
 import { TasksPage } from "./pages/TasksPage.jsx";
 import { AIChatPage } from "./pages/AIChatPage.jsx";
 import { ProfilePage } from "./pages/ProfilePage.jsx";
+import { SettingsPage } from "./pages/SettingsPage.jsx";
+import { AuthPanel } from "./components/AuthPanel.jsx";
 
 function Router() {
   const { guestData, token } = useStudyBuddy();
@@ -32,7 +34,13 @@ function Router() {
     notes: <NotesPage go={go} />,
     tasks: <TasksPage go={go} />,
     chat: <AIChatPage />,
-    profile: <ProfilePage go={go} />
+    profile: <ProfilePage go={go} />,
+    settings: <SettingsPage go={go} />,
+    login: (
+      <div className="mx-auto max-w-md">
+        <AuthPanel defaultMode="login" onDone={() => go("home")} />
+      </div>
+    )
   };
 
   return (
@@ -85,3 +93,4 @@ class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
+

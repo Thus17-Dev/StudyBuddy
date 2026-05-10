@@ -1,6 +1,6 @@
 export function Splash({ onStart }) {
   return (
-    <main className="grid min-h-screen place-items-center overflow-hidden bg-[radial-gradient(circle_at_20%_20%,#bfdbfe,transparent_30%),radial-gradient(circle_at_80%_0%,#ddd6fe,transparent_28%),linear-gradient(135deg,#eef6ff,#f7efff)] px-5 text-slate-950 dark:bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,.38),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(147,51,234,.32),transparent_28%),linear-gradient(135deg,#070b18,#111827)] dark:text-white">
+    <main className="grid min-h-screen place-items-center overflow-hidden bg-[radial-gradient(circle_at_20%_20%,#bfdbfe,transparent_30%),radial-gradient(circle_at_80%_0%,#ddd6fe,transparent_28%),linear-gradient(135deg,#eef6ff,#f7efff)] px-5 text-slate-950 dark:bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,.38),transparent_30%),radial-gradient(circle_at_80%_0%,rgba(147,51,234,.32),transparent_28%),linear-gradient(135deg,#061a3a,#102044)] dark:text-white">
       <section className="max-w-xl text-center screen-enter">
         <img
           src="/icons/logo-512.png"
@@ -19,3 +19,4 @@ export function Splash({ onStart }) {
     </main>
   );
 }
+

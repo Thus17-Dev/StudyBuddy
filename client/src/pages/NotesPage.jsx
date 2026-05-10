@@ -37,16 +37,16 @@ export function NotesPage({ go }) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
         <h1 className="text-3xl font-black text-slate-950 dark:text-white">Notes</h1>
         <p className="mt-1 text-slate-500 dark:text-slate-400">Create, edit, and convert topic notes into flashcards.</p>
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <aside className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+        <aside className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
           <label className="text-sm font-bold text-slate-500 dark:text-slate-400">Topic</label>
           <select
-            className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 dark:border-white/10 dark:bg-slate-900 dark:text-white"
+            className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 dark:border-white/10 dark:bg-[#102044] dark:text-white"
             value={topicId}
             onChange={(event) => setTopicId(event.target.value)}
             disabled={!topics.length}
@@ -61,10 +61,10 @@ export function NotesPage({ go }) {
           {status && <p className="mt-3 rounded-xl bg-blue-50 p-3 text-sm text-blue-700 dark:bg-blue-500/10 dark:text-blue-200">{status}</p>}
         </aside>
 
-        <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-slate-950/78 dark:ring-white/10">
+        <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-100 dark:bg-[#0b1730]/90 dark:ring-white/10">
           <form onSubmit={save} className="space-y-3">
             <textarea
-              className="min-h-40 w-full rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+              className="min-h-40 w-full rounded-2xl border border-slate-200 bg-white p-4 text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
               placeholder={topic ? `New note for ${topic.name}` : "Create a topic first"}
               value={content}
               onChange={(event) => setContent(event.target.value)}
@@ -98,7 +98,7 @@ function EditableNote({ note, topicId, updateNote }) {
   return (
     <article className="rounded-2xl bg-slate-50 p-4 dark:bg-white/5">
       <textarea
-        className="min-h-24 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-slate-900 dark:text-white"
+        className="min-h-24 w-full rounded-xl border border-slate-200 bg-white p-3 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-[#102044] dark:text-white"
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
@@ -108,3 +108,4 @@ function EditableNote({ note, topicId, updateNote }) {
     </article>
   );
 }
+
